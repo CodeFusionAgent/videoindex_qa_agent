@@ -1,17 +1,20 @@
 [project]
-name = "agent-template"
+name = "purple_swe_agent"
 version = "0.1.0"
-description = "A template for A2A agents"
+description = "A debate agent"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "a2a-sdk[http-server]>=0.3.20",
+    "python-dotenv>=1.2.1",
     "uvicorn>=0.38.0",
+    "google-genai>=1.55.0",
 ]
 
 [project.optional-dependencies]
 test = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.24.0",
+    "python-dotenv>=1.2.1",
     "httpx>=0.28.1",
 ]

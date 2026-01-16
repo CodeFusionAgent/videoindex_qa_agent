@@ -1,6 +1,9 @@
-FROM ghcr.io/astral-sh/uv:python3.13-bookworm
+FROM ghcr.io/astral-sh/uv:python3.12-alpine
 
-RUN adduser agent
+USER root
+RUN apk add --no-cache curl
+
+RUN adduser -D agent
 USER agent
 WORKDIR /home/agent
 
@@ -13,4 +16,4 @@ RUN \
 
 ENTRYPOINT ["uv", "run", "src/server.py"]
 CMD ["--host", "0.0.0.0"]
-EXPOSE 9009
+EXPOSE 9019
