@@ -1,41 +1,72 @@
-# A2A Agent Template
+# Codewalk Q&A Agent (Purple Agent)
 
-A minimal template for building [A2A (Agent-to-Agent)](https://a2a-protocol.org/latest/) agents.
+A baseline Purple Agent that answers technical questions about open-source codebases. Built for the [AgentBeats](https://agentbeats.dev) platform using the [A2A (Agent-to-Agent)](https://a2a-protocol.org/latest/) protocol.
+
+## Overview
+
+This agent serves as the baseline Q&A agent for the Codewalk benchmark. When given a question about a codebase, it either:
+
+1. **Returns a pre-computed answer** from YAML knowledge files (for benchmark consistency)
+2. **Generates an answer** using an LLM if no pre-computed answer exists
+
+This design enables reproducible benchmarking while allowing the agent to handle arbitrary questions.
+
+## How It Works
+
+```
+┌─────────────────┐                        ┌─────────────────┐
+│   Eval Agent    │     Question           │    Q&A Agent    │
+│  (Green Agent)  │ ──────────────────────▶│ (Purple Agent)  │
+│                 │                        │                 │
+│                 │◀────────────────────── │  1. Check YAML  │
+│                 │     Answer             │  2. Or use LLM  │
+└─────────────────┘                        └─────────────────┘
+```
 
 ## Project Structure
 
 ```
 src/
 ├─ server.py      # Server setup and agent card configuration
-├─ executor.py    # A2A request handling
-├─ agent.py       # Your agent implementation goes here
-└─ messenger.py   # A2A messaging utilities
+├─ executor.py    # A2A request handling and task lifecycle
+└─ agent.py       # Q&A logic: YAML lookup + LLM fallback
+data/
+├─ fastapi_qa.yaml  # Pre-computed answers for FastAPI questions
+└─ django_qa.yaml   # Pre-computed answers for Django questions
 tests/
-└─ test_agent.py  # Agent tests
+└─ test_agent.py  # A2A conformance tests
 Dockerfile        # Docker configuration
 pyproject.toml    # Python dependencies
-.github/
-└─ workflows/
-   └─ test-and-publish.yml # CI workflow
 ```
 
-## Getting Started
+## Supported Models
 
-1. **Create your repository** - Click "Use this template" to create your own repository from [this](https://github.com/RDI-Foundation/agent-template) template
+| Model | Provider | Base URL |
+|-------|----------|----------|
+| `gemini-2.5-flash` (default) | Google | generativelanguage.googleapis.com |
+| `gemini-2.0-flash` | Google | generativelanguage.googleapis.com |
+| `gpt-4o` | OpenAI | api.openai.com |
+| `gpt-4o-mini` | OpenAI | api.openai.com |
+| `claude-sonnet-4-5` | Anthropic | api.anthropic.com |
 
-2. **Implement your agent** - Add your agent logic to [`src/agent.py`](src/agent.py)
+All models use the OpenAI SDK with compatible endpoints.
 
-3. **Configure your agent card** - Fill in your agent's metadata (name, skills, description) in [`src/server.py`](src/server.py)
+## Environment Variables
 
-4. **Write your tests** - Add custom tests for your agent in [`tests/test_agent.py`](tests/test_agent.py)
-
-For a concrete example of implementing an agent using this template, see this [draft PR](https://github.com/RDI-Foundation/agent-template/pull/8).
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `QA_API_KEY` | API key for the LLM provider | Required |
+| `QA_MODEL` | Model to use for answer generation | `gemini-2.5-flash` |
+| `QA_DATA_DIR` | Directory containing YAML Q&A files | `data` |
 
 ## Running Locally
 
 ```bash
 # Install dependencies
 uv sync
+
+# Set API key
+export QA_API_KEY="your-api-key"
 
 # Run the server
 uv run src/server.py
@@ -45,43 +76,61 @@ uv run src/server.py
 
 ```bash
 # Build the image
-docker build -t my-agent .
+docker build -t codewalk-qa-agent .
 
 # Run the container
-docker run -p 9019:9019 my-agent
+docker run -p 9010:9010 \
+  -e QA_API_KEY="your-key" \
+  -e QA_MODEL="gemini-2.5-flash" \
+  codewalk-qa-agent
 ```
 
 ## Testing
-
-Run A2A conformance tests against your agent.
 
 ```bash
 # Install test dependencies
 uv sync --extra test
 
-# Start your agent (uv or docker; see above)
+# Start your agent (see above)
 
-# Run tests against your running agent URL
-uv run pytest --agent-url http://localhost:9019
+# Run A2A conformance tests
+uv run pytest --agent-url http://localhost:9010
 ```
+
+## YAML Knowledge Format
+
+Questions and answers are stored in YAML files under `data/`:
+
+```yaml
+questions:
+  - question: "How does request processing work in FastAPI?"
+    reference_answer: "Expert reference for evaluation..."
+    claude_code_answer: "Answer from Claude Code..."
+    codefusion_answer: "Answer from CodeFusion..."
+```
+
+The agent looks for any key ending with `_answer` (except `reference_answer`) and returns the first match. This allows multiple answer variants for comparison.
+
+## Adding New Questions
+
+1. Create or edit a YAML file in `data/`
+2. Add questions with at least one `*_answer` field
+3. Rebuild the Docker image to include the new data
 
 ## Publishing
 
-The repository includes a GitHub Actions workflow that automatically builds, tests, and publishes a Docker image of your agent to GitHub Container Registry.
+Push to `main` to publish `latest` tag, or create a version tag (e.g., `v1.0.0`) for versioned releases:
 
-If your agent needs API keys or other secrets, add them in Settings → Secrets and variables → Actions → Repository secrets. They'll be available as environment variables during CI tests.
-
-- **Push to `main`** → publishes `latest` tag:
 ```
-ghcr.io/<your-username>/<your-repo-name>:latest
+ghcr.io/<your-username>/codewalk_qa_agent:latest
+ghcr.io/<your-username>/codewalk_qa_agent:1.0.0
 ```
 
-- **Create a git tag** (e.g. `git tag v1.0.0 && git push origin v1.0.0`) → publishes version tags:
-```
-ghcr.io/<your-username>/<your-repo-name>:1.0.0
-ghcr.io/<your-username>/<your-repo-name>:1
-```
+## Related Repositories
 
-Once the workflow completes, find your Docker image in the Packages section (right sidebar of your repository). Configure the package visibility in package settings.
+- [codewalk_eval_agent](https://github.com/CodeFusionAgent/codewalk_eval_agent) - Green Agent that evaluates Q&A responses
+- [leaderboard_codewalk](https://github.com/CodeFusionAgent/leaderboard_codewalk) - Leaderboard and evaluation scenarios
 
-> **Note:** Organization repositories may need package write permissions enabled manually (Settings → Actions → General). Version tags must follow [semantic versioning](https://semver.org/) (e.g., `v1.0.0`).
+## License
+
+MIT
