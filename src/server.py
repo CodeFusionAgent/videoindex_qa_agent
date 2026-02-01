@@ -16,21 +16,21 @@ from executor import Executor
 def main():
     parser = argparse.ArgumentParser(description="Run the A2A agent.")
     parser.add_argument("--host", type=str, default="127.0.0.1", help="Host to bind the server")
-    parser.add_argument("--port", type=int, default=9019, help="Port to bind the server")
+    parser.add_argument("--port", type=int, default=9010, help="Port to bind the server")
     parser.add_argument("--card-url", type=str, help="URL to advertise in the agent card")
     args = parser.parse_args()
 
     skill = AgentSkill(
-        id="answer_codebase_question",
-        name="Answer Codebase Question",
-        description="Answer questions about codebases",
-        tags=["qa", "codebase"],
-        examples=["How does request processing work in FastAPI?"]
+        id="answer_video_question",
+        name="Answer Video Question",
+        description="Answer questions about video content",
+        tags=["qa", "video"],
+        examples=["Why did Raj tell himself to turn his pelvis when Penny was giving him a hug?"]
     )
 
     agent_card = AgentCard(
-        name="Codewalk Q&A Agent",
-        description="Answer questions about codebases using YAML knowledge base or LLM",
+        name="VideoIndex Q&A Agent",
+        description="Answer questions about video content using knowledge base",
         url=args.card_url or f"http://{args.host}:{args.port}/",
         version='1.0.0',
         default_input_modes=['text'],
