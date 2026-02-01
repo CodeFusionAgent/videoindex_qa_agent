@@ -1,8 +1,8 @@
 import logging
 import os
+import random
 from pathlib import Path
 
-import openai
 import yaml
 from dotenv import load_dotenv
 
@@ -14,20 +14,9 @@ from a2a.utils import get_message_text
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("codewalk_qa")
+logger = logging.getLogger("videoindex_qa")
 
 QA_DATA_DIR = os.getenv("QA_DATA_DIR", "data")
-QA_MODEL = os.getenv("QA_MODEL", "gemini-2.5-flash")
-QA_API_KEY = os.getenv("QA_API_KEY")
-
-# Model determines base_url automatically
-LLM_MODELS = {
-    "gpt-4o": None,
-    "gpt-4o-mini": None,
-    "claude-sonnet-4-5": "https://api.anthropic.com/v1/",
-    "gemini-2.5-flash": "https://generativelanguage.googleapis.com/v1beta/openai/",
-    "gemini-2.0-flash": "https://generativelanguage.googleapis.com/v1beta/openai/",
-}
 
 
 def load_qa_data(data_dir: str) -> list[dict]:
@@ -52,43 +41,35 @@ def load_qa_data(data_dir: str) -> list[dict]:
 
 
 def find_answer(question: str, qa_data: list[dict]) -> tuple[str | None, str | None]:
-    """Search for a matching question in the Q&A data. Returns (answer, key_name)."""
+    """Search for a matching question and return a random answer option."""
     question_lower = question.lower().strip()
     for qa in qa_data:
         if qa.get("question", "").lower().strip() == question_lower:
-            for key, value in qa.items():
-                if key.endswith("_answer") and key != "reference_answer" and value:
-                    return value, key
+            options = qa.get("options", {})
+            if options:
+                # Randomly select one of the answer options
+                answer_key = random.choice(list(options.keys()))
+                answer = options[answer_key]
+                return answer, answer_key
     return None, None
 
 
 class Agent:
     def __init__(self):
         self.qa_data = load_qa_data(QA_DATA_DIR)
-        self.model = QA_MODEL
-        base_url = LLM_MODELS.get(self.model, LLM_MODELS["gemini-2.5-flash"])
-        self.client = openai.OpenAI(api_key=QA_API_KEY, base_url=base_url)
-
-    def generate_answer(self, question: str) -> str:
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": "You are a senior software engineer. Answer questions about codebases accurately."},
-                {"role": "user", "content": question}
-            ],
-        )
-        return response.choices[0].message.content.strip()
 
     async def run(self, message: Message, updater: TaskUpdater) -> None:
         question = get_message_text(message)
         logger.info(f"Received question: {question[:100]}...")
-        answer, key_name = find_answer(question, self.qa_data)
+
+        answer, answer_key = find_answer(question, self.qa_data)
+
         if answer:
-            logger.info(f"Found answer from YAML using key: {key_name}")
+            logger.info(f"Found question, returning random answer: {answer_key}")
         else:
-            logger.info(f"No YAML match found, generating answer with {self.model}")
-            answer = self.generate_answer(question)
-            logger.info("Answer generated successfully")
+            logger.warning("Question not found in dataset")
+            answer = "Question not found in the video Q&A dataset."
+
         await updater.add_artifact(
             parts=[Part(root=TextPart(text=answer))],
             name="Answer",

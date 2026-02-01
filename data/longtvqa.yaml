@@ -1,0 +1,203 @@
+description: Video Q&A dataset for testing video understanding capabilities
+questions:
+- clip: s01e02_seg02_clip_12
+  episode: s01e02
+  options:
+    a0: Raj was trying to get away from Penny .
+    a1: Raj is weird .
+    a2: Raj likes to give himself odd instructions .
+    a3: Raj had become excited and did not want Penny to know .
+    a4: Raj did not like hugging Penny .
+  qid: 133290
+  question: Why did Raj tell himself to turn his pelvis when Penny was giving him a hug ?
+- clip: s01e03_seg02_clip_05
+  episode: s01e03
+  options:
+    a0: Because Lesley refused to go on a date with him .
+    a1: Because someone ate Leonard 's lunch .
+    a2: Because someone ruined Leonard 's experiment .
+    a3: Because Lesley tells Leonard there was no arousal in his kiss .
+    a4: Because Leonard lost his job .
+  qid: 128609
+  question: Why is Leonard disappointed when he leaves the laboratory ?
+- clip: s02e01_seg02_clip_11
+  episode: s02e01
+  options:
+    a0: irritated
+    a1: happy
+    a2: peaceful
+    a3: elated
+    a4: bored
+  qid: 124994
+  question: How did Raj feel when Sheldon thought Raj did n't know Indian cinema ?
+- clip: s02e02_seg02_clip_04
+  episode: s02e02
+  options:
+    a0: Because Sheldon lost the memory card .
+    a1: Because Sheldon caught chicken pox .
+    a2: Because Sheldon 's mother became convinced video games were evil .
+    a3: Because Sheldon got stuck on a really hard part of the game .
+    a4: Because Sheldon had pernicious anemia in 1999 .
+  qid: 123674
+  question: Why did Sheldon say he had to stop playing Mario when he found the memory card his mother sent ?
+- clip: s02e03_seg02_clip_06
+  episode: s02e03
+  options:
+    a0: Because Sheldon was taking a shower .
+    a1: Because Sheldon was sleeping .
+    a2: Because Sheldon was not wearing bottoms .
+    a3: Because Sheldon was working on a project .
+    a4: Because Sheldon was afraid of Leonard .
+  qid: 125081
+  question: Why did Penny tell Leonard to not enter Sheldon 's room after leaving the room herself ?
+- clip: s02e04_seg02_clip_07
+  episode: s02e04
+  options:
+    a0: He looks happy
+    a1: He looks disappointed
+    a2: He looks really very excited
+    a3: He looks proud
+    a4: He looks drunk
+  qid: 136097
+  question: How does Raf look after Charlie Sheen speaks to him ?
+- clip: s01e04_seg02_clip_03
+  episode: s01e04
+  options:
+    a0: Because Sheldon was saying that Penny was cheap .
+    a1: Because Penny thought Sheldon was estimating her body mass too high .
+    a2: Because Sheldon was saying the Penny owed him money .
+    a3: Because Penny had an overdue bill for 120 .
+    a4: Because Sheldon said Penny owed Leonard 120 .
+  qid: 124091
+  question: Why was Penny upset after Sheldon said 120 for her ?
+- clip: s01e06_seg02_clip_13
+  episode: s01e06
+  options:
+    a0: The tea was about to expire .
+    a1: Leonard asked him to make it for him .
+    a2: Leonard was sick .
+    a3: Because you bring guests a hot beverage when they 're upset .
+    a4: Sheldon wanted to have a tea party .
+  qid: 129376
+  question: Why did Sheldon bring Leonard tea after the Halloween party ?
+- clip: s01e08_seg02_clip_00
+  episode: s01e08
+  options:
+    a0: happy and excited
+    a1: Angry
+    a2: he is bored
+    a3: he is unconcerned
+    a4: he is sad
+  qid: 135277
+  question: How does Raj act after listening to the message ?
+- clip: s01e10_seg01_clip_02
+  episode: s01e10
+  options:
+    a0: Because Leonard was afraid Sheldon would embarrass him if they went to the production .
+    a1: Because Leonard and Sheldon had a prior engagement .
+    a2: Because Leonard secretly had a date with someone else that night .
+    a3: Because Leonard did n't have faith in Penny 's talent and thought the production would be bad .
+    a4: Because Leonard hated Penny .
+  qid: 124728
+  question: Why did Leonard refuse when Penny invited Leonard and Sheldon to come to her production ?
+- clip: s01e13_seg02_clip_01
+  episode: s01e13
+  options:
+    a0: angry
+    a1: happy
+    a2: irritated
+    a3: sad
+    a4: hurt
+  qid: 133503
+  question: How did Penny feel when she had to quiz the guys on a Saturday ?
+- clip: s01e14_seg02_clip_06
+  episode: s01e14
+  options:
+    a0: She was n't scheduled
+    a1: They closed for the night
+    a2: There was a power outage
+    a3: They gave her shift away
+    a4: They now have new management
+  qid: 128876
+  question: Why is Penny upset when she gets to work after crawling on the fire escape
+- clip: s01e16_seg02_clip_08
+  episode: s01e16
+  options:
+    a0: angry
+    a1: happy
+    a2: hurtful
+    a3: impatient
+    a4: irritated
+  qid: 133686
+  question: How did Penny feel when Sheldon was taking his time picking the present out ?
+- clip: s01e17_seg02_clip_07
+  episode: s01e17
+  options:
+    a0: She stubbed her toe .
+    a1: She cut her finger .
+    a2: Mike was with someone else .
+    a3: She 's allergic to onions .
+    a4: She 's acting .
+  qid: 133139
+  question: Why is Penny crying when Leonard walks in ?
+- clip: s02e07_seg02_clip_04
+  episode: s02e07
+  options:
+    a0: Because Penny ate Sheldon 's food .
+    a1: Because Penny is talking too loudly .
+    a2: Because Penny is mean to Sheldon .
+    a3: Because Penny sits at Sheldon 's spot ?
+    a4: Because Sheldon does not want Penny to sit on the couch .
+  qid: 133289
+  question: Why is Sheldon mad at Penny when she sits down ?
+- clip: s02e12_seg02_clip_08
+  episode: s02e12
+  options:
+    a0: happy
+    a1: reluctant
+    a2: excited
+    a3: bored
+    a4: tired
+  qid: 129540
+  question: How did Penny feel when Leonard asked her to do him a favor ?
+- clip: s02e14_seg02_clip_02
+  episode: s02e14
+  options:
+    a0: elated
+    a1: irritated
+    a2: angry
+    a3: worried
+    a4: peaceful
+  qid: 131639
+  question: How did Penny feel when Sheldon tried to give her money ?
+- clip: s02e16_seg02_clip_04
+  episode: s02e16
+  options:
+    a0: tired
+    a1: bored
+    a2: happy
+    a3: sleepy
+    a4: angry
+  qid: 130045
+  question: How did Howard feel when he was visiting with Leslie ?
+- clip: s02e17_seg02_clip_09
+  episode: s02e17
+  options:
+    a0: Cried
+    a1: Happy
+    a2: Mad
+    a3: Livid
+    a4: Surprised
+  qid: 136476
+  question: How did Penny act after she found out she was really on the phone with Sheldon ?
+- clip: s02e18_seg01_clip_00
+  episode: s02e18
+  options:
+    a0: Leonard sprayed aerosol spray to make the laser beams visible .
+    a1: Leonard sprayed water to make t he laser beams visible .
+    a2: Leonard held a mirror to reflect the laser beams to make them visible .
+    a3: Leonard blew smoke on the laser beams to make them visible .
+    a4: Leonard use steam to make the laser beams visible .
+  qid: 126842
+  question: How was Leonard able to see the laser beams when they were invisible ?
+title: LongTVQA - The Big Bang Theory
